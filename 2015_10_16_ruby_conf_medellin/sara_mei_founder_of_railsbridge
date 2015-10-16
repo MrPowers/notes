@@ -1,0 +1,77 @@
+Sara Mei
+
+She lives by Lands End in SF
+
+She works on large codebases that are unweildy and hard to change
+
+C# & Java can become a mess as well.  Strongly typed languages can become a mess as well.
+
+With modern technology... you can achieve a large, unweildy codebase faster than ever before!
+
+You can get a huge codebase faster with new technologies that let you move faster.
+
+Her presentation is only pictires... by far the best presentation.
+
+Sometimes technical debt buys you your company's continued existance.
+
+Funny tweets:
+TBH, the main reason I like microservices is that I feel like my method calls are too fast and I’d prefer to throw in some latency.
+
+WE SPENT 18 MONTHS MIGRATING FROM A MONOLITH TO MICROSERVICES
+
+RESULT:
+
+- GITHUB GETS PAID FOR MORE PRIVATE REPOS
+
+- FIND/REPLACE IS HARDER
+
+
+Design is deciding how to arrange code.
+
+Object-oriented design - Grouping related functionality in objects
+
+Object-oriented design is a way of thinking
+
+The only constant with software is that the end goal shifts as we build it.
+
+SOLID
+
+S - single responsibility principle
+O - open / closed principle (editing existing code is harder than just writing new code).  Nice idea, but hard to apply in practice.
+L - liskov substitution principle - inheritance is a thing, obvious now, but wasn't obvious in the late 80s
+I - interface segregation principle - This makes more sense with compiled languages.  If two classes use non-overlapping public interfaces of a class, then the class should be split up.
+D - dependency inversion principle - dependencies should be injected.  Ideally classes are not instantiated in other classes.
+
+Design pattern - a set of object boundries that work well in a lot of situations.
+
+Observer pattern
+Create a UserObserver class that observes the User class.  When a User is created, the UserObserver class will send the email.  This is nice because it splits up the User class, but the code is not harder to understand.  The code is not easier to change, but harder to understand.
+
+Patterns are not a universal win...
+
+Patterns give a better idea of how to break up code, but not when to break up code.
+
+Strategy - high level plan (e.g. climb a mountain)
+Tactic - how to actually carry something out (the actual route to climb the mountain, contingency plans)
+
+Goal: Changeable code
+Strategy: OO Design
+Tactics: Solid/patterns
+
+You can't do stop-the-world refactorings in real life.
+
+Sarah came up with her own acronym: STABLE
+
+S - smell your code (Identify the parts of your code that you can fix)
+T - tiny problems first (fix the small problems first, even though you see bigger problems in the codebase.  You'll see the larger problems first when you fix the small problems)
+A - augment tests (almost certainly need better tests for refactoring.  Need tests that describe the behavior you want to keep, not the implementation you know you don't want.)
+B - back up
+L - leave it better than you found it (rename variables or methods, that will set you in the right direction.  Like when girl scouts leave the camp site in a little better condition.)
+E - expect good reasons (expect that the past developer had good reasons to write the code they did)
+
+Inline refactoring of codebases while you're building new features is the best way to refactor codebases.
+
+Everyone on the team should be doing this refactoring.
+
+
+

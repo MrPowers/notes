@@ -1,0 +1,82 @@
+Sandi Metz
+Nothing is something
+
+Sandi spent 35 years writing code before she write POODR
+
+When Sandi wrote POODR she started giving talks, teaching courses, etc.
+
+It never occured to Sandi that the book would be read.
+
+She has distilled everything she knows about objects into this talk.
+
+She is infected by Smalltalk.  She's been writing Ruby since 2005 and she hasn't written Ruby for as long as she wrote Smalltalk
+
+1.send(:+, 1) is normal.  1 + 1 is syntactic sugar
+
+true is the singleton instance of the TrueClass
+
+Smalltalk keywords: true, false, nil, self, super, thisContext
+
+Conditionals cause a lot of issues with object oriented design.
+
+The if keyword holds us back
+
+class TrueClass
+  def if_true
+    yield
+    self
+  end
+
+  def if_false
+    self
+  end
+end
+
+class FalseClass
+  def if_true
+    self
+  end
+
+  def if_false
+    yield
+    self
+  end
+end
+
+(1 == 1).if_true {puts "evaluated block"}
+
+To account for "truthy" and "falsey":
+
+class Object
+  def if_true
+    yield
+    self
+  end
+
+  def if_false
+    self
+  end
+end
+
+
+Smalltalk doens't have conditionals.  Sandi hates conditionals.
+
+Animal.find('pig')
+Animal.find("") => nil
+
+conditions always get worse.
+
+
+There is a design pattern called the NullObject Pattern.  It's also called the "ActiveNothing"
+
+
+*****
+!!!!!
+*****
+
+Don't do nil checks anymore!! Use the NullObject pattern.
+
+Be carefult about inheritance.  It is not for sharing behavior.
+
+Find the nothing in your code.  Nothing is always something.
+

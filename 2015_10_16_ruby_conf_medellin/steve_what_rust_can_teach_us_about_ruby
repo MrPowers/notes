@@ -1,0 +1,71 @@
+First presentation dude
+
+His Linux computer didn't work with the presentation
+
+He has a Ruby tattoo
+
+He had been working on Rust for 2 years.
+
+"An operating system's job is to lie" - each program on your computer is to think it is the only program that is running on your computer.
+
+I can tell that this dude learned a lot from studying CS at college... I am jelous.
+
+Our brains create abstractions when we talk.  Our basic phsical senses are abstractions.
+
+Working in a lower level language like Rust can help you when you're working in a higher level language like Ruby.
+
+Ruby Under a Microscope is how you can really learn how Ruby works at a lower level.  This will make you a better Ruby programmer.
+
+Ruby is slow, but we still love it.  The fundamental way Ruby is designed makes it slower.
+
+Compiling traditionally meant converting code to assembly.  Recently "compiling" can mean converting CoffeeScript to JavaScript too for example.
+
+Ruby 1.9 actually does compile your code.  This is one of th biggest changes from 1.8 to 1.9.
+
+Code: 2 + 2
+Tokenize: T_INT OP_PLUS T_INT
+Parse  2 <-- + --> 2
+MRI Bytecode
+  0000 trace 1
+  0002 putobject2
+  0004 putobject2
+  0006 ..
+  0008 leave
+
+Different programming languages have different ways to model the problem.
+
+
+Rust => Rustations
+
+Rust is a compiled language.
+
+Compile Rust:
+$ rustc foo.rs
+
+Run binary
+./foo.rs
+
+There is a complicated method lookup process for all objects in Ruby.
+
+fn foo(x: i32) -> i32 {
+    5
+}
+
+Rust compiles to very simple assembly code (that is a lot faster)
+
+In Rust, data and behavior are explicitly not mixed.
+
+self is explicit in Rust.
+
+It is easy to inspect Rust code and optimize it (e.g. convert a program from 82 lines of assembly to 32)
+
+ActiveRecord has 45 modules that are mixed in.  Ruby modules are awesome, but Rails kind of abuses it.
+
+Rust lets you write code that looks like Ruby, but is way faster.
+
+Ruby gives us great flexibility.  Rust gives us performance (it's pretty flexible).
+
+Ruby gems can be written with Rust.
+
+
+
