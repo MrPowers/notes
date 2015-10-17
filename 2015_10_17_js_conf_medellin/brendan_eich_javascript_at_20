@@ -1,0 +1,30 @@
+Brendan Eich
+
+He had to build a prototype for JavaScript in 10 days and it had to look like Java
+
+He would read hardcord CS code at Stanford
+
+Javascript doesn't have types, but if you write it carefully, you can give it types.
+
+He also needed to write a bytecode interpreter as well
+
+In 1995, there was no array object.  It was just an Object with a length property.
+
+JS was good enough that is survived.
+
+They have made a lot of progress since 1995.
+
+Typed objects are coming in ES7.
+
+Facebook Flow is a more specific type checker.  TypeScript is more sophisticated type checking.
+
+JS is untyped, but is has a typed subset.  asm.js.
+
+There are hundreds of languages that compile to JS.  Coffeescript has lost some air with ES6.
+
+Check out the Solar System of JS
+
+They want to start releasing new versions of ES more rapidly.
+
+Playing video games at a demo are effective.
+
