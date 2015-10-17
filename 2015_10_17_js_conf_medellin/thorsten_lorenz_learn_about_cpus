@@ -1,0 +1,26 @@
+Thorsten Lorenz
+
+He works on Node
+
+Assembly gets you as close to the metal as you can without writing 0s and 1s
+
+assembly is very close to the CPU
+
+The CPU doesn't understand JS, C, or assembly... it only understands 0s and 1s
+
+If you learn assembly, you can understand what the CPU does step-by-step
+
+If you minify code without a source map, you can't convert it back to the original.
+
+Node.js is really low in the stack.
+
+He went from .net -> Node -> C -> assembly
+
+Read the book Assembly Language Step by Step
+
+The CPU doesn't have memory, it only has registers
+
+Opcodes are what the CPU understands.  This is what is consumed by the CPU.
+
+
+
