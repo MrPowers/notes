@@ -1,9 +1,9 @@
-Express in Action
+# Express in Action
 Book Notes
 
 The Express middleware stack is effectively an array of functions.
 
-Part 1: Intro
+## Part 1: Intro
 Express makes it easier to write web applications.
 
 Chapter 1: What is Express?
@@ -42,10 +42,20 @@ Express is just a Node.js module, like any other.
 It's hard to write web applications with pure Node.  Express was built to make it easier to write web applications.
 
 
-CHAPTER 2: The Basics of Node.js
+## CHAPTER 2: The Basics of Node.js
 Node has a standard module system called CommonJS
 
 You can require built-in modules, require third party modules, or make your own modules with Node.
+
+Here's an example that uses the built-in `url` module:
+
+```javascript
+var url = require("url");
+var parsedURL = url.parse("http://www.example.com/profile?name=barry");
+console.log(parsedURL.protocol);  // "http:"
+console.log(parsedURL.host);      // "www.example.com"
+console.log(parsedURL.query);     // "name=barry"
+```
 
 
 
