@@ -1,0 +1,38 @@
+These bots are made for walking
+
+It wasn't that fun to do bots with C
+
+Walking is very hard.
+
+The video of the darpa robots falling down in much easier.
+
+It's really hard to make robots walk.
+
+Rick Waldron is the inventor of Johnny Five
+
+Johnny Five is a JavaScript robotics library with Node: https://github.com/rwaldron/johnny-five
+
+Ronald Jaramillo created a GUI for doing animations with Johnny Five.  This app is called go-johnny-go.  It's an Express application.
+
+We want to give values in x, y, z coordinates, we don't want to think about each coordinate individually.
+
+I can't believe that people are doing so much with Robotic & JS.
+
+JS is a quirky little language that is showing up in a bunch of different applications.
+
+Intel Edison is an internet of things type of device.
+
+Electric Imp is a cool little device.
+
+There are a lot of people using JavaScript - that's the best part of JS.
+
+JerryScript is a JS engine to run JS on microcontrollers (devices that don't have the RAM to run V8).  There is a really good chance that these microcontrollers will use JS.
+
+Time that we spend working on hardware is time well spent.
+
+johnny-five is really cool... I really need to check it out.
+
+Nodebots has a great community.
+
+johnny-five is a supportive GitHub community.
+

@@ -1,0 +1,28 @@
+Alex Sexton
+
+Great username: <script>alert('hacked');</script>
+
+Samy computer worm - it was a JS worm
+
+You can't detect the scripts that are malicious and the scripts that are benign.
+
+You can prevent script tags, but there are other ways that people can inject JavaScript.
+
+Even if we disable JS, there are CSS hacks.
+
+History knocking is an old-school CSS hack.
+
+jsonp is very insecure - it lets people run arbitrary scripts on your page
+
+We need a different approach.  There are a million ways to get hacked.  We can't address them all individually.
+
+Content-Security-Policy (CSP) - it's a header where you can define different rules for the different stuff on your page.
+
+A white list is key.  Block everyone and only allow the sites that you want to allow.
+
+CSP is awesome is a great website to help you make a CSP.
+
+ember-cli-content-security-policy is included by default in Ember.
+
+Do HTTPS only - move people to https.  I need to do this on my site.
+
