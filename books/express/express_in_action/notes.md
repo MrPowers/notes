@@ -57,5 +57,17 @@ console.log(parsedURL.host);      // "www.example.com"
 console.log(parsedURL.query);     // "name=barry"
 ```
 
+Every Node project has a package.json file that defines the project's metadata and dependencies.
 
+Here is an example package.json file:
+
+```javascript
+{
+  "name": "my-fun-project",
+  "author": "Evan Hahn",
+  "private": true,
+  "version": "0.2.0",
+  "dependencies": {}
+}
+```
 
