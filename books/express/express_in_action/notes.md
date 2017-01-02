@@ -1,7 +1,16 @@
 # Express in Action
 Book Notes
 
-The Express middleware stack is effectively an array of functions.
+## Review
+
+Examples are well contained and start with the most basic units.
+
+Middleware description is fantastic.
+
+Async description was great.
+
+Really awesome that he starts with high level overviews of the main topics before diving into the details.
+
 
 ## Part 1: Intro
 Express makes it easier to write web applications.
@@ -155,6 +164,160 @@ server.listen(3000);
 This will show "Hello, world!" in the browser and print something in the console every time you visit a different page.
 
 The author recommends installing Node with a version manager, so you can easily change versions and upgrade as necessary.
+
+
+
+CHAPTER 3: Foundations of Express
+
+Express is an abstraction layer that's built on top of Node's built-in HTTP server.
+
+At a high level, Express provides four major features:
+
+- middleware: an array of functions
+- routing
+- extensions to request and response objects
+- views
+
+Here is how to add Express to an app: `npm install express --save`
+
+Let's rewrite the hello world example using Express's middleware:
+
+```javascript
+var express = require("express");
+var http = require("http");
+
+var app = express();
+
+app.use(function(request, response) {
+  console.log("In comes a request to: " + request.url);
+  response.end("Hello, world!");
+});
+
+http.createServer(app).listen(3000);
+```
+
+In Node's HTTP server, every request goes through one big function.
+
+One of the functions in the array of middleware should respond to the request.  Otherwise, the browser will hang.
+
+Here is how logging middleware can be added to the hello world app:
+
+```javascript
+var express = require("express");
+var http = require("http");
+var app = express();
+
+// logging middleware
+app.use(function(request, response, next) {
+  console.log("In comes a " + request.method + " to " + request.url);
+  next();
+});
+
+// sends the actual response
+app.use(function(request, response) {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  response.end("Hello, world!");
+});
+
+http.createServer(app).listen(3000);
+```
+
+Express adds some things to the Node objects, but it doesn't take anything away.  You can still use the Node objects like you did before.
+
+Middleware can change the request or response objects
+
+It's pretty common to use middleware in third party libraries
+
+express.static ships with Express and helps you serve static files.
+
+It's better to use resolve `path.resolve(__dirname, "public")` than hardcode the path `/public` because the hardcoded path isn't cross platform.
+
+There is another framework like Express that's called Connect.  Connect only does middleware.  If you can't find any Express middleware that meets your needs, try the Connect middleware.
+
+Routing is best explained with an example.
+
+```javascript
+var express = require("express");
+var path = require("path");
+var http = require("http");
+var app = express();
+
+var publicPath = path.resolve(__dirname, "public");
+
+app.use(express.static(publicPath));
+
+app.get("/", function(request, response) {
+  response.end("Welcome to my homepage!");
+});
+
+app.get("/about", function(request, response) {
+  response.end("Welcome to the about page!");
+});
+
+app.get("/weather", function(request, response) {
+  response.end("The current weather is NICE.");
+});
+
+app.use(function(request, response) {
+  response.statusCode = 404;
+  response.end("404!");
+});
+
+http.createServer(app).listen(3000);
+```
+
+The Express methods can also access url params.
+
+```javascript
+app.get("/hello/:who", function(request, response) {
+  response.end("Hello, " + request.params.who + ".");
+  // Fun fact: this has some security issues, which we’ll get to!
+});
+```
+
+Express extends the request and response objects with methods like `redirect` and `sendFile`.
+
+Here is how an evil IP address can be blacklisted.
+
+```javascript
+var express = require("express");
+  var app = express();
+  var EVIL_IP = "123.45.67.89";
+  app.use(function(request, response, next) {
+   if (request.ip === EVIL_IP) {
+      response.status(401).send("Not allowed!");
+    } else {
+  next(); }
+});
+```
+
+Here is how to update the `app.js` file to render some views.
+
+```javascript
+app.set("views", path.resolve(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.get("/", function(request, response) {
+  response.render("index", {
+    message: "Hey everyone! This is my webpage."
+  });
+});
+```
+
+You need to create a `/views/index.ejs` file to be rendered.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <%= message %>
+  </body>
+</html>
+```
 
 
 
