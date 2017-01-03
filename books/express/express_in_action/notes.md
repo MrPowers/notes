@@ -3,7 +3,7 @@ Book Notes
 
 ## Review
 
-Examples are well contained and start with the most basic units.
+Examples are well contained and start with the most basic units.  I hate books with long, multi-chapter examples.
 
 Middleware description is fantastic.
 
@@ -11,11 +11,11 @@ Async description was great.
 
 Really awesome that he starts with high level overviews of the main topics before diving into the details.
 
+Some typos and small bugs, but nothing that should hang you up if you're reading closely.
 
-## Part 1: Intro
-Express makes it easier to write web applications.
 
-Chapter 1: What is Express?
+## Chapter 1: What is Express?
+
 Node.js encourages an asynchronous coding style, making for faster code while avoiding multithreaded nightmares.
 
 Express exists to limit the boilerplate code that's needed to work with Node.js and provide better APIs.
@@ -167,7 +167,7 @@ The author recommends installing Node with a version manager, so you can easily 
 
 
 
-CHAPTER 3: Foundations of Express
+## CHAPTER 3: Foundations of Express
 
 Express is an abstraction layer that's built on top of Node's built-in HTTP server.
 
@@ -318,6 +318,160 @@ You need to create a `/views/index.ejs` file to be rendered.
   </body>
 </html>
 ```
+
+
+## Chapter 4: Middleware
+
+Conceptually, Middleware is the biggest part of Express.  Node forces you to write one giant function for your entire app and Express lets you break up the requests into various functions.
+
+Web servers listen for requests, parse those requests, and send responses.
+
+When you call `res.end` or `response.end`, it signals to Node that the response is done and ready to be sent over the wire.
+
+In Express, the request and response objects are passed through an array of functions, called the middleware stack.
+
+Each function in the middleware stack takes three arguments: `function(request, response, next)`
+
+When `next` is called, Express will go to the next function in the stack.
+
+`request` is an object that represents the incoming HTTP request.
+
+`response` is an object that represents the outgoing HTTP response.
+
+`next` is a function that will go to the next middleware when called.
+
+Eventully, one of the middleware functions must call `res.end` which will end the request.
+
+You need to use `next()` all over the place in Express because Express is asyncronous.  If Express was synchronous, `next()` wouldn't be necessary.
+
+The order of the middleware stack is important.
+
+Here is the code for a simple little app that serves static files.
+
+```javascript
+var express = require("express");
+var path = require("path");
+var fs = require("fs");
+
+var app = express();
+
+app.use(function(req, res, next) {
+  console.log("Request IP: " + req.url);
+  console.log("Request date: " + new Date());
+  next();
+});
+
+app.use(function(req, res, next) {
+  var filePath = path.join(__dirname, "static", req.url);
+  fs.stat(filePath, function(err, fileInfo) {
+    if (err) {
+      next();
+      return;
+    }
+    if (fileInfo.isFile()) {
+      res.sendFile(filePath);
+    } else {
+      next();
+    }
+  });
+});
+
+app.use(function(req, res) {
+  res.status(404);
+  res.send("File not found!");
+});
+
+app.listen(3000, function() {
+  console.log("App started on port 3000");
+});
+```
+
+The Morgan logger is maintained by the Express core team.  It's not build into Express.
+
+This is how Morgan can be used to log:
+
+```javascript
+var morgan = require("morgan");
+app.use(morgan("short"));
+```
+
+`morgan` is a function and `morgan("short")` returns a middleware function.
+
+This can be written more explicitly as follows:
+
+```javascript
+var morgan = require("morgan");
+var morganMiddleware = morgan("short");
+app.use(morganMiddleware);
+```
+
+Here is how the static file server app can be refactored if we use the built-in code.
+
+```javascript
+var express = require("express");
+var path = require("path");
+var morgan = require("morgan");
+
+var app = express();
+
+app.use(morgan("short"));
+
+var staticPath = path.join(__dirname, "static");
+app.use(express.static(staticPath));
+
+app.use(function(req, res) {
+  res.status(404);
+  res.send("File not found!");
+});
+
+app.listen(3000, function() {
+  console.log("App started on port 3000");
+});
+```
+
+There are two types of middleware: regular middleware that takes three arguments and error-handling middleware that take four arguments.
+
+When your app is in error mode, Express ignores all the regular middleware and only executes the error-handling middleware.
+
+Calling next with no arguments will exit error mode and move onto the next normal middleware; calling it with an argument will continue onto the next error-handling middleware if one exists.
+
+To reiterate more precisely, “no errors” means “next was never called with any arguments.”  `next(new Error ("Something bad happened!"))` is an example of calling next with an argument.
+
+The convention is to put the error handling middleware at the end of the middleware stack.
+
+Here is an example of how to enter error mode if a file fails to be sent.
+
+```javascript
+app.use(function(req, res, next) {
+  res.sendFile(filePath, function(err) {
+    if (err) {
+      next(new Error("Error sending file!"));
+    }
+  });
+});
+```
+
+Here is some simple middleware that logs errors, but doesn't respond to the error.
+
+```javascript
+app.use(function(err, req, res, next) {
+  console.error(err);
+  next(err); // continues to next error handling middleware
+});
+```
+
+Here's how to respond to the error with a 500 status code:
+
+```javascript
+app.use(function(err, req, res, next) {
+  res.status(500);
+  res.send("Internal server error.");
+});
+```
+
+Express uses the number of arguments of the function to determine which middleware handles errors and which does not.
+
+express.static is the only piece of middleware that's bundled with Express.
 
 
 
