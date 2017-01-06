@@ -13,6 +13,8 @@ Really awesome that he starts with high level overviews of the main topics befor
 
 Some typos and small bugs, but nothing that should hang you up if you're reading closely.
 
+Book is funny with several Celine Dion references and variable names like horribleRegexp.  "or maybe you’re a donut enthu- siast and have gigabytes of donut photos to serve your hungry viewers" made me lol.
+
 
 ## Chapter 1: What is Express?
 
@@ -472,6 +474,97 @@ app.use(function(err, req, res, next) {
 Express uses the number of arguments of the function to determine which middleware handles errors and which does not.
 
 express.static is the only piece of middleware that's bundled with Express.
+
+
+## Chapter 5: Routing
+
+Routing lets you match different requests to different request handlers.  It's one of the major features of Express.
+
+We can grab parameters to use with routes.
+
+```javascript
+app.get("/users/:userid", function(req, res) {
+   var userId = parseInt(req.params.userid, 10);
+});
+```
+
+You can also use regular expressions to match routes.
+
+The following code will match routes like /users/123 and /users/456, but won't match /uses/olivia.
+
+```javascript
+app.get(/^\/users\/(\d+)$/, function(req, res) {
+  var userId = parseInt(req.params[0], 10);
+  // ...
+});
+```
+
+Routers can be used to split up the app.  Routers are how you break up the `app.js` file.  From the Express documentation:
+
+A router is an isolated instance of middleware and routes. Routers can be thought of as “mini” applications only capable of performing middleware and routing. Every express application has a built-in app router.
+
+Here's an app.js file that uses a router.
+
+```javascript
+var express = require("express");
+var path = require("path");
+var apiRouter = require("./routes/api_router");
+
+var app = express();
+
+var staticPath = path.resolve(__dirname, "static");
+app.use(express.static(staticPath));
+
+app.use("/api", apiRouter);
+
+app.listen(3000);
+```
+
+And here's the routes/api\_router.js file.
+
+```javascript
+var express = require("express");
+
+var ALLOWED_IPS = [
+  "127.0.0.1",
+  "123.456.7.89"
+];
+
+var api = express.Router();
+
+api.use(function(req, res, next) {
+  var userIsAllowed = ALLOWED_IPS.indexOf(req.ip) !== -1;
+  if (!userIsAllowed) {
+    res.status(401).send("Not authorized!");
+  } else {
+    next();
+  }
+});
+
+api.get("/users", function(req, res) { /* ... */ });
+api.post("/user", function(req, res) { /* ... */ });
+
+api.get("/messages", function(req, res) { /* ... */ });
+api.post("/message", function(req, res) { /* ... */ });
+
+module.exports = api;
+```
+
+Middleware can be mounted at a given prefix.
+
+Static files can be served from multiple directories.
+
+```javascript
+var publicPath = path.resolve(__dirname, "public");
+var userUploadsPath = path.resolve(__dirname, "user_uploads");
+
+app.use(express.static("/public", publicPath));
+app.use(express.static("/uploads", userUploadsPath));
+```
+
+SSL - Secure Sockets Layer
+
+I don't need to dig into HTTPS/SSL at this time because I can rely on Heroku's built-in features.
 
 
 
