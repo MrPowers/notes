@@ -567,4 +567,134 @@ SSL - Secure Sockets Layer
 I don't need to dig into HTTPS/SSL at this time because I can rely on Heroku's built-in features.
 
 
+## Chapter 6: Building APIs
+
+A better name for API would be "software interface".  A UI interface is meant to be consumed by huamans and a software interface is meant to be consumed by code.
+
+We'll build APIs that receive HTTP requests and respond with JSON data.
+
+Fundamentals of an Express API:
+
+1. Take a request
+2. Parse the request
+3. Respond with a JSON object and a HTTP status code
+
+Here's an example of a little API that returns a random number.
+
+```javascript
+var express = require("express");
+var app = express();
+
+app.get("/random/:min/:max", function(req, res) {
+  var min = parseInt(req.params.min);
+  var max = parseInt(req.params.max);
+
+  if (isNaN(min) || isNaN(max)) {
+    res.status(400);
+    res.json({ error: "Bad request." });
+    return;
+  }
+
+  var result = Math.round((Math.random() * (max - min)) + min);
+
+  res.json({ result: result });
+});
+
+app.listen(3000, function() {
+  console.log("App started on port 3000");
+});
+```
+
+If you go to localhost:3000/random/10/1000, you can see the random numbers that are generated.
+
+Let's dissect this bit of code:
+
+```javascript
+if (isNaN(min) || isNaN(max)) {
+  res.status(400);
+  res.json({ error: "Bad request." });
+  return;
+}
+```
+
+If the request doesn't contain two numbers then we do three things:
+
+1. Set the HTTP status code to 400
+2. Send a JSON object
+3. Return (if we didn't return, the rest of the code in the function would have been executed)
+
+HTTP verbs are also known as HTTP methods.  A client sends an HTTP request to the server with a method. The client can choose any method it wants, but there are a handful that are used. The server sees that method and responds accordingly.
+
+Web applications typically use the following four HTTP methods:
+
+1. GET
+2. POST
+3. PUT - a better name would be update / change
+4. DELETE
+
+APIs should be versioned so changes aren't breaking.
+
+You can use a router to create a file that corresponds to version 1 of your API.  See the following `api1.js` file:
+
+```javascript
+var express = require("express");
+
+var api = express.Router();
+
+api.get("/timezone", function(req, res) {
+  res.send("Sample response for /timezone");
+});
+
+api.get("/all_timezones", function(req, res) {
+  res.send("Sample response for /all_timezones");
+});
+
+module.exports = api;
+```
+
+Here is how the v1 and v2 API routers can be used in the `app.js` file:
+
+```javascript
+var express = require("express");
+
+var apiVersion1 = require("./api1.js");
+var apiVersion2 = require("./api2.js");
+
+var app = express();
+
+app.use("/v1", apiVersion1);
+app.use("/v2", apiVersion2);
+
+app.listen(3000, function() {
+  console.log("App started on port 3000");
+});
+```
+
+Every HTTP response comes with a HTTP status code.
+
+In Express, the default status code is 200.
+
+You can set your own status code `res.status(404);`
+
+Express extends the raw HTTP response object that Node gives you.
+
+Some important HTTP status codes:
+
+200: Everything about the request and response went through fine
+
+201: Similar to 200, but it's used when a resource is created
+
+301: Moved permanently
+
+303: When a resource is created and you want to redirect to a new page
+
+400 range: When the client made a mistake and it's not the server's fault.  There was something wrong with the request.
+
+401: Occurs when the user isn't logged in
+
+403: When the user is logged in but the don't have the permissions to make the request
+
+404: When the page is not found
+
+500 range: These are the server's fault.
 
