@@ -698,3 +698,80 @@ Some important HTTP status codes:
 
 500 range: These are the server's fault.
 
+
+## Chapter 7: View Templates - Pug and EJS
+
+Express is unopinionated and required a lot of third party accessories to build an application.
+
+Pug and EJS are view engines.
+
+Pug used to be known as Jade, but changed it's name for legal resons.
+
+Here is an EJS snipped that illustrates EJS's main features.
+
+```javascript
+Hi <%= name %>!
+You were born in <%= birthyear %>, so that means you’re <%= (new Date()).getFullYear() - birthyear %> years old.
+<% if (career) { -%>
+  <%=: career | capitalize %> is a cool career!
+<% } else { -%>
+  Haven’t started a career yet? That’s cool.
+<% } -%>
+Oh, let’s read your bio: <%- bio %> See you later!
+```
+
+Pass the following context to EJS:
+
+```javascript
+{
+  name: "Tony Hawk",
+  birthyear: 1968,
+  career: "skateboarding",
+  bio: "<b>Tony Hawk</b> is the coolest skateboarder around."
+}
+```
+
+This yields the following result:
+
+```
+Hi Tony Hawk!
+You were born in 1968, so that means you’re 47 years old.
+Skateboarding is a cool career!
+Oh, let’s read your bio: Tony Hawk is the coolest skateboarder around. See you later!
+```
+
+`<% expression %>` prints the results of a JavaScript expression.
+
+`<%- expression %>` prints the results of an expression and escapes any HTML that might be inside (this is more secure)
+
+`<% expression -%>` avoids adding extraneous newlines.
+
+EJS templates can be included in other EJS templates:
+
+```javascript
+<% include header %>
+  <h1>Welcome to my page!</h1>
+  <p>This is a pretty cool page, I must say.</p>
+<% include footer %>
+```
+
+You can easily define your own EJS filters.  Here's a filter that sums all the elements in an array.
+
+```javascript
+ejs.filters.sum = function(arr) {
+  var result = 0;
+  for (var i = 0; i < arr.length; i ++) {
+    result += arr[i];
+  }
+  return result;
+};
+```
+
+You can use it just like any other filter:
+
+```
+<%=: myarray | sum %>
+```
+
+
+
