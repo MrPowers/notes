@@ -774,4 +774,224 @@ You can use it just like any other filter:
 ```
 
 
+## Chapter 8: Persisting Your Data with MongoDB
+
+Mongoose is to Mongo as Sequelize is to SQL
+
+The author recommends using the Sequelize package if you're using a SQL database
+
+A Mongo database has many collections.
+
+A Mongo collection has many documents.
+
+Documents don't have to have the same properties.  It's a NoSQL data store.
+
+Every document needs to have a unique \_id property
+
+Documents can embed other documents in Mongo.  A blog post document could include a comments document (for all the comments associated with that blog post).
+
+You need to run Mongo locally on your machine in development.  Just like you need to run Postgres locally on your machine in development.
+
+Mongo stores everything in BSON, which is a binary format.
+
+Here's an example of the user schema in `models/user.js`:
+
+```javascript
+var mongoose = require("mongoose");
+
+var userSchema = mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  displayName: String,
+  bio: String
+});
+```
+
+Here's an example of a simple method that can be added to the user model.
+
+```javascript
+userSchema.methods.name = function() {
+  return this.displayName || this.username;
+};
+```
+
+Let's add some code that will hash the user's password before saving it to the database.  This is a pre-save action.
+
+```javascript
+var bcrypt = require("bcrypt-nodejs");
+var SALT_FACTOR = 10;
+
+var noop = function() {};
+
+userSchema.pre("save", function(done) {
+  var user = this;
+  if (!user.isModified("password")) {
+    return done();
+  }
+
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) { return done(err); }
+    bcrypt.hash(user.password, salt, noop, function(err, hashedPassword) {
+      if (err) { return done(err); }
+      user.password = hashedPassword;
+      done();
+    });
+  });
+});
+```
+
+Skipped the rest of this chapter.
+
+
+
+## Chapter 9: Testing Express Applications
+
+TDD cycle: red, green, refactor
+
+Testing is just one way to get more confident in your code.  Peer reviews and code linters are also good methods.
+
+Istanbul is a good tool for looking at the code coverage of a test suite.
+
+Mocha is a JavaScript testing framework that was created by the creator of Express.
+
+Mocha is a testing framework and Chai is an assertion library.  Mocha waits for assertion libraries to throw errors.
+
+Let's write some tests for a function that capitalizes the first letter of a string.
+
+Let's start with this `package.json` file:
+
+```javascript
+{
+  "private": true,
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^2.0.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
+```
+
+This is the `capitalize()` function that will be tested:
+
+```
+function capitalize(str) {
+  var firstLetter = str.charAt(0).toUpperCase();
+  var rest = str.slice(1).toLowerCase();
+  return firstLetter + rest;
+}
+
+module.exports = capitalize;
+```
+
+And here are the tests that use the Mocha testing framework and the Chai assertion library:
+
+```javascript
+var capitalize = require("../capitalize");
+
+var chai = require("chai");
+var expect = chai.expect;
+
+describe("capitalize", function() {
+  it("capitalizes single words", function() {
+    expect(capitalize("cats")).to.equal("Cats");
+  });
+
+  it("works for the empty string", function() {
+    expect(capitalize("")).to.equal("");
+  });
+
+  it("works for strings without letters", function() {
+    expect(capitalize("234")).to.equal("234");
+  });
+});
+```
+
+Mocha has a built-in `beforeEach()` function.
+
+You can also make sure that code throws an error with certain arguments.
+
+```javascript
+it("throws an error if passed a number", function() {
+  expect(function() { capitalize(123); }).to.throw(Error);
+});
+```
+
+You can use the `not()` method to make sure your code does not do something.
+
+```javascript
+it("changes the value", function() {
+  expect(capitalize("foo")).not.to.equal("foo");
+});
+```
+
+Supertest spools up your Express server and sends requests to it.
+
+Most browsers send a header called User-Agent that identifies the type of browser to the server.
+
+Let's use Supertest to test a plain text API.
+
+Here is the `app.js` file for a simple little app that sends a plain text response with the user agent.
+
+```javascript
+var express = require("express");
+
+var app = express();
+
+app.set("port", process.env.PORT || 3000);
+
+app.get("/", function(req, res) {
+  res.type("text");
+  res.send(req.headers["user-agent"]);
+});
+
+app.listen(app.get("port"), function() {
+  console.log("App started on port " + app.get("port"));
+});
+
+module.exports = app;
+```
+
+Here are the tests for the plain text API above.
+
+```javascript
+var app = require("../app");
+var supertest = require("supertest");
+
+describe("plain text response", function() {
+
+  it("returns a plain text response", function(done) {
+    supertest(app)
+      .get("/")
+      .set("User-Agent", "my cool browser")
+      .set("Accept", "text/plain")
+      .expect("Content-Type", /text\/plain/)
+      .expect(200)
+      .end(done);
+  });
+
+  it("returns your User Agent", function(done) {
+    supertest(app)
+      .get("/")
+      .set("User-Agent", "my cool browser")
+      .set("Accept", "text/plain")
+      .expect(function(res) {
+        if (res.text !== "my cool browser") {
+          throw new Error("Response does not contain User Agent");
+        }
+      })
+      .end(done);
+  });
+
+});
+```
+
+The Cheerio module is basically jQuery for Node.  It lets you parse the DOM for your tests.
+
+I skipped the Cheerio stuff because I don't really like view tests.
+
+
+
 
