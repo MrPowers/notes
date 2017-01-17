@@ -83,5 +83,58 @@ Maeve saw one of the Native Americans drop a carving of a man in the hazmat suit
 Maeve has realized that nothing she does actually matters - she is free.
 
 
+## Episode 5
+
+Will is the beta that loves Dolores.
+
+Logan wants to join the Confederados, a group of mercenaries.
+
+The Man in Black keeps Teddy alive.  He thinks Teddy can help him find Wyatt.
+
+Felix (the Asian technician that repairs Maeve) is teaching himself to program and playing with a bird he stole from the park.
+
+Dolores' last contact with Arnold was on the day he died.
+
+Lawrence, Logan, Will, Dolores, and the Confederados rob some explosives.
+
+Lawrence backstabs the Confederados and gets caught.  Lawrence, Will, and Dolores escape leaving Logan (the annoying one) behind.
+
+Ford and the Man in Black know each other.
+
+Maeve wakes up and tells Felix she wants to chat!
+
+
+
+## Episode 6
+
+Maeve intentionally gets herself killed.  She knows that nothing she does has consequences.
+
+Bernie and Elsie are trying to figure out who is smuggling data out of the park with hacked hosts.
+
+Bernie figures out that there are rouge hosts that aren't registered in the system.
+
+Felix shows Maeve that she doesn't have free will.  She is programmed to think and say everything.
+
+Ford's reveries have allowed hosts to access memories from previous builds.
+
+Sylvester is the other guy that repairs Maeve that is unlikeable.
+
+Ford has replicated his childhood home with hosts.  Apparently that little boy is Ford when he was a kid.
+
+Dolores is a first generation host.
+
+Elsie calls Bernie and says that Theresa is smuggling the information out of the park.
+
+Some hosts can change their loops and their prime directives are affected.
+
+
+## Episode 7
+
+Bernard is a host!
+
+Will, Dolores, Lawrence are on a train that goes through Ghost Nation territory.
+
+Hale is the executive that sits on the board and wants to oust Ford.
+
 
 
